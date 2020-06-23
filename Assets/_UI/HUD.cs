@@ -24,6 +24,10 @@ public class HUD : MonoBehaviour
     public void UpdateLives()
     {
         Image_Lives.rectTransform.sizeDelta = new Vector2(GameManager.Lives * 50, 30);
+        if (GameManager.Lives <= 0)
+        {
+            GameOver();
+        }
     }
 
     public void GameOver()

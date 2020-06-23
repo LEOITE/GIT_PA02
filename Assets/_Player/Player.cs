@@ -15,6 +15,8 @@ public class Player : MonoBehaviour
 
     private float moveSpeed = 0.05f;
 
+    public GameObject expolision;
+
     void Start()
     {
         thisController = GetComponent<CharacterController>();
@@ -52,6 +54,26 @@ public class Player : MonoBehaviour
 
         thisController.Move(MoveDirection);
         transform.position = new Vector3(Mathf.Clamp(transform.position.x, -1.5f, 1.5f), transform.position.y, transform.position.z);
+    }
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "obstacle")
+        {
+            print("hit");
+            Destroy(other.gameObject);
+            GameObject prefab_e = Instantiate(expolision, new Vector3(transform.position.x, transform.position.y, transform.position.z),Quaternion.identity);
+            GameManager.Lives--;
+            HUD.HUDManager.UpdateLives();
+            Destroy(prefab_e, 1);
+
+        }
+        if (other.gameObject.tag == "points")
+        {
+            GameManager.Score++;
+            HUD.HUDManager.UpdateScore();
+        }
     }
 
 }
